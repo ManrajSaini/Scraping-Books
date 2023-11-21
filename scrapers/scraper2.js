@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
+const fs = require("fs");
 
-let data = [];
 let links = [];
 
 const scraper2 = async () => {
@@ -91,10 +91,13 @@ const scraper2 = async () => {
             return book;
         });
 
-        data.push(bookDetails);
+        fs.appendFile("./extractedData/bookData.csv", `${bookDetails.Title.replace(/,/g, ".")},${bookDetails.Category},${bookDetails.Cost},${bookDetails.Stock},${bookDetails.Stars},${bookDetails.UPC},${bookDetails.Tax},${bookDetails.Reviews},${bookDetails.Image}\n`,
+            function(err){
+                if(err) throw err;
+            }
+        );
     }
 
-    console.log(data);
     await browser.close();
 };
 
